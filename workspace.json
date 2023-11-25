@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "projects": {
+    "@movins/log-sdk": {
+      "root": "libs/web",
+      "sourceRoot": "libs/web",
+      "projectType": "library",
+      "tags": ["sdks"]
+    }
+  }
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+</body>
+<!-- 用于本地开发 -->
+<script src="/devServer/index.js"></script>
+
+<script>
+  console.info('bytes test begin root=', bytes)
+  const {ByteArray} = bytes
+
+  function utf8_encode(input) {
+    input = input.replace(/\r\n/g, '\n')
+    let utftext = ''
+    for (let n = 0; n < input.length; n++) {
+      const c = input.charCodeAt(n)
+      if (c < 128) {
+        utftext += String.fromCharCode(c)
+      } else if (c > 127 && c < 2048) {
+        utftext += String.fromCharCode((c >> 6) | 192)
+        utftext += String.fromCharCode((c & 63) | 128)
+      } else {
+        utftext += String.fromCharCode((c >> 12) | 224)
+        utftext += String.fromCharCode(((c >> 6) & 63) | 128)
+        utftext += String.fromCharCode((c & 63) | 128)
+      }
+    }
+    return utftext
+  }
+
+  function utf8_decode(strUtf) {
+    if (!strUtf) {
+      return ''
+    }
+    let output = ''
+    let i = 0
+    let c = 0
+    let c1 = 0
+    let c2 = 0
+    let c3 = 0
+    let c4 = 0
+    let c5 = 0
+    try {
+      while (i < strUtf.length) {
+        c = strUtf.charCodeAt(i)
+        if (c < 128) {
+          output += String.fromCharCode(c)
+          i++
+        } else if (c >= 192 && c < 224) {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          output += String.fromCharCode(((c & 31) << 6) | (c1 & 63))
+          i += 2
+        } else if (c >= 224 && c < 239) {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          c2 = strUtf.charCodeAt(i + 2) || 0
+          output += String.fromCharCode(
+            ((c & 15) << 12) | ((c1 & 63) << 6) | (c2 & 63)
+          )
+          i += 3
+        } else if (c >= 240 && c < 247) {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          c2 = strUtf.charCodeAt(i + 2) || 0
+          c3 = strUtf.charCodeAt(i + 3) || 0
+          output += String.fromCharCode(
+            ((c & 7) << 18) | ((c1 & 63) << 12) | ((c2 & 63) << 6) | (c3 & 63)
+          )
+          i += 4
+        } else if (c >= 248 && c < 251) {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          c2 = strUtf.charCodeAt(i + 2) || 0
+          c3 = strUtf.charCodeAt(i + 3) || 0
+          c4 = strUtf.charCodeAt(i + 4) || 0
+          output += String.fromCharCode(
+            ((c & 3) << 24) |
+              ((c1 & 63) << 18) |
+              ((c2 & 63) << 12) |
+              ((c3 & 63) << 6) |
+              (c4 & 63)
+          )
+          i += 5
+        } else if (c >= 252 && c < 254) {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          c2 = strUtf.charCodeAt(i + 2) || 0
+          c3 = strUtf.charCodeAt(i + 3) || 0
+          c4 = strUtf.charCodeAt(i + 4) || 0
+          c5 = strUtf.charCodeAt(i + 5) || 0
+          output += String.fromCharCode(
+            ((c & 1) << 30) |
+              ((c1 & 63) << 24) |
+              ((c2 & 63) << 18) |
+              ((c3 & 63) << 12) |
+              ((c4 & 63) << 6) |
+              (c5 & 63)
+          )
+          i += 6
+        } else {
+          c1 = strUtf.charCodeAt(i + 1) || 0
+          c2 = strUtf.charCodeAt(i + 2) || 0
+          output += String.fromCharCode(
+            ((c & 15) << 12) | ((c1 & 63) << 6) | (c2 & 63)
+          )
+          i += 3
+        }
+      }
+    } catch (e) {
+      window.console.log('elelel-utf8_decode-error', e.message, strUtf)
+    }
+    return output
+  }
+
+  const bt = new Int8Array([21,31])
+  const kTestVal = [
+    ['writeFloat32', 'readFloat32', 11.42],
+    ['writeFloat64', 'readFloat64', 11.42323232323011111],
+    ['writeDouble', 'readDouble', 11.42323232323011111],
+    ['writeInt8', 'readInt8', -127],
+    ['writeByte', 'readByte', 127],
+    ['writeUInt8', 'readUInt8', 255],
+    ['writeInt16', 'readInt16', -4000],
+    ['writeShort', 'readShort', 4000],
+    ['writeUInt16', 'readUInt16', 4000],
+    ['writeUShort', 'readUShort', 4000],
+    ['writeInt32', 'readInt32', -4000],
+    ['writeSkip', 'readSkip', 100],
+    ['writeUInt32', 'readUInt32', 4000],
+    ['writeInt64', 'readInt64', -9223372036854776000],
+    ['writeInt64', 'readInt64', 9223372036854776000],
+    ['writeUInt64', 'readUInt64', 18446744073709552000],
+    ['writeLong', 'readLong', 40000000000000000],
+    ['writeString', 'readString', '喔喔我test 8888888'],
+    ['writeUtf8', 'readUtf8', '喔喔我test 8888888'],
+    ['writeString32', 'readString32', '喔喔我test 8888888'],
+    ['writeUtf8Ex', 'readUtf8Ex', '喔喔我test 8888888'],
+    ['writeBytes', 'readBytes', bt]
+  ]
+
+  const test = new ByteArray(4)
+  kTestVal.forEach(([key, _, val]) => {
+    if (key === 'writeString' || key === 'writeString32') {
+      val = utf8_encode(val)
+    }
+    const fn = test[key]
+    fn && fn.call(test, val)
+  })
+  test.position = 0
+
+  kTestVal.forEach(([_, key, val]) => {
+    const fn = test[key]
+    let args = undefined
+    switch (key) {
+      case 'readSkip': args = val; break;
+      case 'readBytes': args = val.byteLength; break;
+    }
+    let data = fn && fn.call(test, args)
+    if (data && (key === 'readString' || key === 'readString32')) {
+      data = utf8_decode(data)
+    }
+    let suc = val === data
+    if (data && key === 'readBytes') {
+      suc = val.byteLength === data.byteLength
+    }
+
+    console.info(`test fn ${key} write: ${val} read: ${data} suc=${suc}`)
+  })
+</script>
+</html>

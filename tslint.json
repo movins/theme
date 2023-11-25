@@ -1,0 +1,48 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case",
+        "allow-leading-underscore",
+        "allow-snake-case",
+        "allow-trailing-underscore",
+        "require-const-for-all-caps"
+      ]
+    },
+    "member-ordering": false,
+    "comment-format": false,
+    "interface-name": false,
+    "ordered-imports": false,
+    "array-type": false,
+    "member-access": false,
+    "no-console": false,
+    "no-empty-interface": false,
+    "no-construct": false,
+    "no-empty": false,
+    "no-null-keyword": false,
+    "class-name": false,
+    "curly": false,
+    "object-literal-sort-keys": false,
+    "max-classes-per-file": false,
+    "no-unused-expression": false,
+    "forin": false,
+    "callable-types": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**/*.ts",
+      "build/**/*.js",
+      "build/**/*.ts",
+      "dist/**/*.ts"
+    ]
+  },
+  "exclude": [
+    "dist/**/*",
+    "build/**/*.js",
+    "build/**/*.ts",
+    "node_modules/**/*"
+  ]
+}

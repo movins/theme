@@ -1,0 +1,25 @@
+{
+	"include": [
+		"lib/**/*.ts"
+	],
+	"exclude": [
+		"lib/**/*.d.ts"
+	],
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es5",
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"sourceMap": false,
+		"allowJs": false,
+		"downlevelIteration": true,
+		"resolveJsonModule": true,
+		"declarationDir": "./dist",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true
+	}
+}

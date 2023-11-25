@@ -1,0 +1,29 @@
+.logview-scroll{
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+  border:1px dashed #F00;
+  background:#000c18;
+}
+
+ul{ list-style-type: none;  width: fit-content;  white-space: nowrap; height: 95%;  padding: 0px; margin:0px;}
+ul li{ display:block; width: 100%;  line-height:20px; color: #C0C0C0;background:#000c18;}
+ul li:hover{ background:#082050; }
+
+.logview-extra-row{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.logview-extra-row.clusterize-keep-parity{
+  display: none;
+}
+
+.logview-content{
+  outline: 0;
+  counter-reset: clusterize-counter;
+}
+
+.logview-no-data td{
+  text-align: center;
+}

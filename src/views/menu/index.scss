@@ -1,0 +1,9 @@
+.menu {
+  &-logo {
+    margin-left: 18px;
+    height: 24px;
+    will-change: filter;
+    transition: filter 300ms;
+    user-select: none;
+  }
+}

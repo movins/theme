@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["WebWorker", "es6", "dom"],
+    "sourceMap": false,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": false,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "downlevelIteration": true
+  },
+  "include": ["src/"],
+  "exclude": ["node_modules/", "**node_modules*", "dist", "**/*.js"]
+}
